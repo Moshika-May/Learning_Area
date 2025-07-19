@@ -1,3 +1,6 @@
 A = "ABC"
+B = 0.5
+C = 7
 
 print(A)
+print(B+C)
