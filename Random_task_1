@@ -1,0 +1,28 @@
+# Ok I am stupid
+PI = 3.14159265359
+radius = float(input('Radius: '))
+Circle_area = PI*(radius ** 2)
+Regtangle_area = radius ** 2
+print(f'Circle area: {Circle_area:.2f}m^2\tradius: {radius}m')
+print('Regtangle square area: ', round(Regtangle_area,2), 'm^2')
+
+# abs(): Returns the absolute value of a number.
+# abs(-10) returns 10.
+
+# divmod(): Returns the quotient and remainder of a division as a tuple.
+# divmod(7, 3) returns (2, 1).
+
+# max(): Returns the largest item in an iterable or the largest of two or more arguments.
+# max([1, 5, 2]) returns 5.
+
+# min(): Returns the smallest item in an iterable or the smallest of two or more arguments.
+# min([1, 5, 2]) returns 1.
+
+# pow(x, y, z=None): Returns x to the power of y. If z is present, it returns x to the power of y modulo z.
+# pow(2, 3) returns 8.
+
+# round(number, ndigits=None): Rounds a number to a specified number of decimal places.
+# round(3.14159, 2) returns 3.14.
+
+# sum(iterable, start=0): Sums the items of an iterable.
+# sum([1, 2, 3]) returns 6.
