@@ -1,10 +1,43 @@
-# Ok I am stupid
+# Ok I am stupid + Programer มือใหม่
+from math import sqrt
+
+
+# Constant number
+G_EARTH = 9.81 # m/s²
+G_CONSTANT = 6.67430 * (10 ** -11) # m³⋅kg⁻¹⋅s⁻²
 PI = 3.14159265359
+SPACING_A = '==================================='
+
+
+print(f'{SPACING_A:10}  Input sections  {SPACING_A:10}', end=('\n\n'))
+
+
+# Input values
+name = input('Input ur name: ')
 radius = float(input('Radius: '))
+num_a = float(input('Input Negative number: '))
+
+
+# Calculation
+Introducing = f'{name.title()}'
 Circle_area = PI*(radius ** 2)
-Regtangle_area = radius ** 2
-print(f'Circle area: {Circle_area:.2f}m^2,\tradius: {radius}m')
-print('Regtangle square area:', round(Regtangle_area,2), 'm^2')
+Square_area = radius ** 2
+if num_a > 1:
+    num_a = num_a*(-1)    # num_a was always negative number
+
+
+# Headliner
+print(f'{SPACING_A:10}  Output sections  {SPACING_A:10}', end=('\n\n'))
+
+
+print(f'This is answer from {Introducing}.', 
+      f'\nCircle area: {Circle_area:,.2f}m²', 
+      f'radius: {radius}m', 
+      f'Regtangle square area: {round(Square_area,2)}m²', sep=('\n'), end=('\n\n'))
+print(f'If we used rad to calculate ((rad^2)*2): {round((radius ** 2)*2,2)}m'+
+      f'\nYour negative number was: {num_a:,.2f}'+
+      f'\nYour negative number with absolute and square root: {sqrt(abs(num_a)):,.3f}',end=('\n\n'))
+print('Here are matrix 3x3 easy table:\n|1\t|2\t|3\n|4\t|5\t|6\n|7\t|8\t|9')
 
 # Mathmatical_Functions ====================================================================================================
 # abs(): Returns the absolute value of a number.
@@ -61,7 +94,7 @@ print('Regtangle square area:', round(Regtangle_area,2), 'm^2')
 
 # tuple(iterable): Creates a new tuple. 
 
-# Iterables and iterators =============================================
+# Iterables and iterators ====================================================================================================
 
 # all(iterable): Returns True if all elements of the iterable are true (or if the iterable is empty).
 
@@ -89,7 +122,7 @@ print('Regtangle square area:', round(Regtangle_area,2), 'm^2')
 
 # zip(iterable, ...): Creates an iterator of tuples from multiple iterables.
 
-# Input and output ===================================================================
+# Input and output ====================================================================================================
 
 # input(prompt=None): Reads a line from user input.
 
@@ -123,7 +156,7 @@ print('Regtangle square area:', round(Regtangle_area,2), 'm^2')
 
 # vars(object): Returns the __dict__ attribute of an object. 
 
-# Program execution ==========================================================
+# Program execution ====================================================================================================
 
 # breakpoint(*args, **kwargs): Enters the debugger at the call site.
 
@@ -137,7 +170,7 @@ print('Regtangle square area:', round(Regtangle_area,2), 'm^2')
 
 # __import__(name, globals=None, locals=None, fromlist=(), level=0): Used by the import statement. 
 
-#Object-oriented programming ==========================================================
+#Object-oriented programming ====================================================================================================
 
 #classmethod(function): Returns a class method for a function.
 
@@ -149,7 +182,7 @@ print('Regtangle square area:', round(Regtangle_area,2), 'm^2')
 
 #super(type, object_or_type=None): Returns a proxy object that delegates method calls to a parent or sibling class.
 
-# Asynchronous functions ====================================================================
+# Asynchronous functions ====================================================================================================
 
 # aiter(async_iterable): Returns an asynchronous iterator.
 
