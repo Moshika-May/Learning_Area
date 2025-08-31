@@ -1,9 +1,10 @@
-# 6810742293 กษิดิ์เดช มหานิล
-# Input values
+# 6810742293 กษิดิ์เดช มหานิล 760001
+
+# Input section
 first_num = int(input('Enter first number: '))
 second_num = int(input('Enter secnod number: '))
 
-# Calculation values
+# Calculation section
 calculation_a = first_num + second_num
 calculation_b = first_num - second_num
 calculation_c = first_num * second_num
