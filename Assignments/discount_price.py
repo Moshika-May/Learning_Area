@@ -3,5 +3,5 @@ discount_percent = float(input('Enter percent discount: '))
 
 discount_price = normal_price*(discount_percent/100)
 print(f'Normal price: {normal_price:,.2f}')
-print(f'Percentage discount: {discount_percent:,.2f}')
-print(f'Discount price: {normal_price-discount_price:,.2f}')
+print(f'Percent discount: {discount_percent:,.2f}%')
+print(f'Discounted price: {normal_price-discount_price:,.2f}')
