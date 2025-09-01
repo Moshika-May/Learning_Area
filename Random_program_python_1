@@ -70,6 +70,8 @@ print(f'And here are advance matrix 3x3 table:\n|{MATRIX_3V3_1}\t|{MATRIX_3V3_2}
 
 
 print(f'\n{SPACING_A}  {TYPE_CONVERSION_AND_CREATION:^4}  {SPACING_A}', end=('\n\n'))
+print(f'Value of boolean_1 is: {BOOLEAN_1}',
+      f'Value of boolean_0 is: {BOOLEAN_0}', sep=('\n'))
 
 
 
