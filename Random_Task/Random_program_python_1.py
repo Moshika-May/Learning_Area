@@ -83,4 +83,10 @@ print(f'{BOOLEAN_1} and {BOOLEAN_1} is: {BOOLEAN_1 and BOOLEAN_1}',
       f'\n{BOOLEAN_1} xor {BOOLEAN_1} is: {(BOOLEAN_1 ^ BOOLEAN_1)}',
       f'{BOOLEAN_1} xor {BOOLEAN_0} is: {(BOOLEAN_1 ^ BOOLEAN_0)}',
       f'{BOOLEAN_0} xor {BOOLEAN_1} is: {(BOOLEAN_0 ^ BOOLEAN_1)}',
-      f'{BOOLEAN_0} xor {BOOLEAN_0} is: {(BOOLEAN_0 ^ BOOLEAN_0)}', sep=('\n'))
+      f'{BOOLEAN_0} xor {BOOLEAN_0} is: {(BOOLEAN_0 ^ BOOLEAN_0)}', sep=('\n\n'))
+char_a = chr(97) # ASCII 97 = a
+char_b = chr(98) # ASCII 98 = b
+char_c = chr(99) # ASCII 99 = c
+print(f'\nCharacter of 97 is: {char_a}',
+      f'Character of 98 is: {char_b}',
+      f'Character of 99 is: {char_c}', sep=('\n'), end=('\n\n'))
