@@ -10,4 +10,4 @@ elif second_int >= first_int and second_int >= third_int:
     highest = second_int
 else:
     highest = third_int
-print(f'The highest integer is {highest}')
+print(f'The maximum number is {highest}')
