@@ -16,3 +16,4 @@ if salary >= MIN_SALARY and years_on_job >= MIN_YEARS:
     print('You qualify for the loan.')
 else:
     print('You do not qualify for this loan.')
+    
