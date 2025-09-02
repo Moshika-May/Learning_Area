@@ -20,9 +20,9 @@ if power_unit >= 0:
     vat_cost = (SERVICE_CHARGE + electicity_cost) * VAT
     total_cost = SERVICE_CHARGE + electicity_cost + vat_cost
 
-    print(f'Electricity cost = {electicity_cost:.2f} Baht',
+    print(f'Electricity cost = {electicity_cost:,.2f} Baht',
           f'Service charge = {SERVICE_CHARGE:.2f} Baht',
-          f'VAT (7 Percent) = {vat_cost:.2f} Baht',
-          f'Total cost = {total_cost:.2f} Baht', sep='\n')
+          f'VAT (7 Percent) = {vat_cost:,.2f} Baht',
+          f'Total cost = {total_cost:,.2f} Baht', sep='\n')
 else:
     print('Invalid input')

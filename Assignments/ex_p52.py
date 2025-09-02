@@ -22,5 +22,4 @@ discount_price = normal_price * discount
 # Print the result
 print(f'Normal amount: {normal_price:,.2f} Baht',
       f'Discount amount: {discount_price:,.2f} Baht',
-      f'Total amount: {total_price:,.2f} Baht', sep='\n'
-)
+      f'Total amount: {total_price:,.2f} Baht', sep='\n')
