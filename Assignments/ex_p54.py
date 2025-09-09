@@ -3,6 +3,9 @@
 # Constants
 SERVICE_CHARGE = 24.62
 VAT = 0.07
+# UNIT_RATE_1 = 3.2484
+# UNIT_RATE_2 = 4.2218
+# UNIT_RATE_3 = 4.4217
 
 # Input energy consumption
 power_unit = int(input('Enter the energy consumption (kilowatt-hours): '))

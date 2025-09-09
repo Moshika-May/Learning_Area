@@ -6,6 +6,7 @@ PACKAGE_PRICE = 99.00
 # Input number of packages
 number_of_packages = int(input('Number of packages purchased: '))
 discount = 0.00
+
 # Calculate total price with discount
 if number_of_packages >= 10 and number_of_packages <= 19:
         discount = 0.10
