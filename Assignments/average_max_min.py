@@ -1,12 +1,13 @@
 # 6810742293 Kasidej Mahanin
 
-# Declaring variables
+# Declaring variables section
 total = 0
 count = 0
 
-# Input number
+# First input section
 number = int(input(f'Enter a score (-1 to end): '))
 
+# Compute first while-loop section
 # If ""number"" was more than -1, Will assign maximum(to set maximum to temp state), minimum(to set minimum to temp state), count, total then break
 # If ""number"" was -1, Will break and also will break on next while loop as well also count will be 0 that will use in last output part
 # If ""number"" was not -1 and lower than -1, Will print "invalid number" then ask user to input again until it was positive number or -1
@@ -23,6 +24,7 @@ while True:
         print('Invalid number, please enter positive number')
         number = int(input(f'Enter a score (-1 to end): '))
 
+# Compute while-loop second section
 # This was next step from first while loop
 # The ""number"" variable was same value and will consider in if-else statement that ""number"" value was -1 or not.
 # If ""number"" was -1, Will break loop before asking user input and proceed to next if statement.
@@ -44,6 +46,7 @@ while True:
     elif number < -1:
         print('Invalid number, please enter positive number')
 
+# Output section
 # This will check that program how to end program.
 # If program has count > 0, Thats mean program was active second while and had to calculate ""average"" then print output.
 # If program has count <= 0, Thats mean program wasn't active second loop so will print "no score entered." cause ""number"" was -1 so exit program.
