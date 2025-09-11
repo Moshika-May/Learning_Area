@@ -24,7 +24,7 @@ while True:
         print('Invalid number, please enter positive number')
         number = int(input(f'Enter a score (-1 to end): '))
 
-# Compute while-loop second section
+# Compute second while-loop section
 # This was next step from first while loop
 # The ""number"" variable was same value and will consider in if-else statement that ""number"" value was -1 or not.
 # If ""number"" was -1, Will break loop before asking user input and proceed to next if statement.
