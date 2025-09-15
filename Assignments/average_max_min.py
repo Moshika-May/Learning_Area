@@ -1,37 +1,36 @@
 # 6810742293 Kasidej Mahanin
 
 # Declaring variables section
+# These variables will be used to keep track of totals, counts
 total = 0
 count = 0
 
 # First input section
+# Program asks for the first score. This is important to initialize min/max values.
 number = int(input(f'Enter a score (-1 to end): '))
 
-# Compute first while-loop section
-# If ""number"" was more than -1, Will assign maximum(to set maximum to temp state), minimum(to set minimum to temp state), count, total then break
-# If ""number"" was -1, Will break and also will break on next while loop as well also count will be 0 that will use in last output part
-# If ""number"" was not -1 and lower than -1, Will print "invalid number" then ask user to input again until it was positive number or -1
+# First while-loop section
+# Validate the first input
+# If first number is valid (>=0), initialize maximum and minimum with it
+# If input is -1, exit immediately (no scores entered)
+# If input is less than -1, show error and re-ask until user enters >=0 or -1
 while True:
-    if number == -1:
+    if number == -1:        # Exit immediately if no scores are to be entered
         break
-    elif number > -1:
+    elif number > -1:       # Valid first number → initialize min and max
         maximum = number
         minimum = number
         count += 1
         total += number
         break
-    else:
+    else:                   # Invalid input (< -1)
         print('Invalid number, please enter positive number')
         number = int(input(f'Enter a score (-1 to end): '))
 
-# Compute second while-loop section
-# This was next step from first while loop
-# The ""number"" variable was same value and will consider in if-else statement that ""number"" value was -1 or not.
-# If ""number"" was -1, Will break loop before asking user input and proceed to next if statement.
-# If ""number"" was positive number program will ask user to input again to add more ""count"" and top up total value
-# and then will consider that new number that user input was new maximum(if higher number this will replace maximum)
-# or minimum(if lower number this will replace minimum).
-# If ""number"" was negative number, Wil print "invalid number" and than loop to ask user to input again until user input was -1.
+# Second while-loop section
+# Continue asking for scores until user enters -1
+# Each valid score (>=0) is added to total, count, and checked for min/max
+# Negative numbers (< -1) are invalid, error message shown, and user is asked again
 while True:
     if number == -1:
         break
@@ -47,9 +46,8 @@ while True:
         print('Invalid number, please enter positive number')
 
 # Output section
-# This will check that program how to end program.
-# If program has count > 0, Thats mean program was active second while and had to calculate ""average"" then print output.
-# If program has count <= 0, Thats mean program wasn't active second loop so will print "no score entered." cause ""number"" was -1 so exit program.
+# If at least one valid score was entered, calculate and print average, min, and max
+# If no scores were entered (count == 0), print "No scores entered."
 if count > 0:
     average = total / count
     print(f'Average score: {average:,.1f}')
