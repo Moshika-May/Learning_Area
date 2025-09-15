@@ -52,8 +52,8 @@ while True:
 # If program has count <= 0, Thats mean program wasn't active second loop so will print "no score entered." cause ""number"" was -1 so exit program.
 if count > 0:
     average = total / count
-    print(f'Average score: {average:.1f}')
-    print(f'Minimum score: {minimum:.1f}')
-    print(f'Maximum score: {maximum:.1f}')
+    print(f'Average score: {average:,.1f}')
+    print(f'Minimum score: {minimum:,.1f}')
+    print(f'Maximum score: {maximum:,.1f}')
 else:
     print('No scores entered.')
