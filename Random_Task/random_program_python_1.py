@@ -7,19 +7,6 @@ G_EARTH = 9.81 # m/s²
 G_CONSTANT = 6.67430 * (10 ** -11) # m³⋅kg⁻¹⋅s⁻²
 PI = 3.14159265359
 SPACING_A = '==================================='
-MATRIX_3V3_1 = '6X-6'
-MATRIX_3V3_2 = '5X²+4'
-MATRIX_3V3_3 = 'X+51'
-MATRIX_3V3_4 = '9X²-x'
-MATRIX_3V3_5 = '25X+8'
-MATRIX_3V3_6 = '4X²+6x'
-MATRIX_3V3_7 = '12X-2'
-MATRIX_3V3_8 = '7X+1'
-MATRIX_3V3_9 = '8X²+73'
-MATRIX_A_2V2_1 = '14'+'x'
-MATRIX_A_2V2_2 = '68'+'x'+'**2'
-MATRIX_A_2V2_3 = '67'+'x'+'**2'+'17'+'x'
-MATRIX_A_2V2_4 = '7'+'x'
 INPUT_SECTION = 'Input sections'
 OUTPUT_SECTION = 'Output sections'
 TYPE_CONVERSION_AND_CREATION = 'Type conversion and creation'
@@ -65,8 +52,6 @@ print(f'Your number was: {abs(num_a):,.2f}'+
       f'\nYour lowest input was: {Lowest_num:,.2f}'+
       f'\nSum of rad and negative number: {Sum_num:,.2f}', end=('\n\n'))
 print('Here are matrix 3x3 easy table:\n|1\t|2\t|3\n|4\t|5\t|6\n|7\t|8\t|9', end=('\n\n'))
-print(f'And here are advance matrix 3x3 table:\n|{MATRIX_3V3_1}\t|{MATRIX_3V3_2}\t|{MATRIX_3V3_3}\n|{MATRIX_3V3_4}\t|{MATRIX_3V3_5}\t|{MATRIX_3V3_6}'+
-      f'\n|{MATRIX_3V3_7}\t|{MATRIX_3V3_8}\t|{MATRIX_3V3_9}')
 
 
 print(f'\n{SPACING_A}  {TYPE_CONVERSION_AND_CREATION:^4}  {SPACING_A}', end=('\n\n'))
