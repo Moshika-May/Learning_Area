@@ -1,53 +1,67 @@
+# 6810742293 Kasidej Mahanin
 
-
-
+# Define function
 def calculate_averages(students):
-    average = []
-    for student in students:
+    averages = []
+
+    for name, math_score, science_score in students:
         average = (math_score + science_score) / 2
-    return average
+        averages.append((name, average))
+
+    return averages
 
 def get_students_above_threshold(averages, threshold=75):
     above_threshold = []
-    
+
+    for name, average in averages:
+        if average > threshold:
+            above_threshold.append(name)
+
     return above_threshold
 
 def get_highest_average_student(averages):
-    ...
+    highest_student_name = None
+    highest_score = -1
+
+    if not averages:
+        return (None, -1)
+
+    for name, average in averages:
+        if average > highest_score:
+            highest_score = average
+            highest_student_name = name
+            
+    return (highest_student_name, highest_score)
 
 def print_report(averages, above_threshold, highest):
-    ...
+    highest_name, highest_score = highest
+    
+    print("Student averages:")
+    for name, average in averages:
+        print(f"{name}: {average:.2f}")
+        
+    print("\nStudents with an average score above 75:")
+    print(above_threshold)
+    
+    if highest_name is not None:
+        print(f"\nStudent with the highest average score: "
+              f"{highest_name} with an average of {highest_score:.2f}")
+    else:
+        print("\nNo student data to report.")
 
 def main():
-    students = []
-    name, math_score, science_score = input(f'Student #{student} (input name, math and science score): ').split()
-    students.append((name, int(math_score), int(science_score)))
+    students = [
+        ("Alice", 85, 90),
+        ("Bob", 78, 82),
+        ("Charlie", 92, 93),
+        ("David", 65, 70),
+        ("Eve", 88, 85)
+    ]
+    
+    averages = calculate_averages(students)
+    above_threshold = get_students_above_threshold(averages, 75)
+    highest = get_highest_average_student(averages)
+    
+    print_report(averages, above_threshold, highest)
 
-
-
-# Calculate the average score of each student.
-
-# Create a list of students who have an average score above 75.
-above_75_students = [
-    name
-    for name, average in student_averages
-    if average > 75
-]
-
-# Find the student with the highest average score.
-highest_average_student = student_averages[0]
-for student in student_averages:
-    if student[1] > highest_average_student[1]:
-        highest_average_student = student
-
-# Print the results
-print("Average scores of each student:")
-for name, average in student_averages:
-    print(f"{name}: {average:.2f}")
-
-print("\nStudents with an average score above 75:")
-print(above_75_students)
-
-print(f"\nStudent with the highest average score: " +
-      f"{highest_average_student[0]} with an average of " +
-      f"{highest_average_student[1]:.2f}")
+main()
