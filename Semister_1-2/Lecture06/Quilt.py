@@ -1,0 +1,38 @@
+from graphics import Canvas
+
+# each patch is a square with this width and height:
+PATCH_SIZE = 100
+CANVAS_WIDTH = PATCH_SIZE * 4
+CANVAS_HEIGHT = PATCH_SIZE * 2
+INSET = 20
+
+def main():
+    canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
+    draw_square_patch(canvas, 0, 0)
+    draw_circle_patch(canvas, PATCH_SIZE, 0)
+    draw_square_patch(canvas, PATCH_SIZE*2, 0)
+    draw_circle_patch(canvas, PATCH_SIZE*3, 0)
+
+    draw_circle_patch(canvas, 0, 100)
+    draw_square_patch(canvas, PATCH_SIZE*1, 100)
+    draw_circle_patch(canvas, PATCH_SIZE*2, 100)
+    draw_square_patch(canvas, PATCH_SIZE*3, 100)
+    canvas.mainloop()
+    
+def draw_circle_patch(canvas, start_x, start_y):
+    end_x = start_x + PATCH_SIZE
+    end_y = start_y + PATCH_SIZE
+    canvas.create_oval(start_x, start_y, end_x, end_y, 'salmon')
+
+def draw_square_patch(canvas, start_x, start_y):
+    # draws a purple frame at (start_x, start_y)
+    end_x = start_x + PATCH_SIZE
+    end_y = start_y + PATCH_SIZE
+    # first draw a purple square over the entire patch
+    canvas.create_rectangle(start_x, start_y, end_x, end_y, 'purple')
+    # then draw a smaller white square on top
+    canvas.create_rectangle(start_x+INSET, start_y+INSET, 
+        end_x-INSET, end_y-INSET, 'white')
+    
+if __name__ == '__main__':
+    main()
