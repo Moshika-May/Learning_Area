@@ -16,10 +16,15 @@ def flip_horizontal(image):
 	"""
 	flipped = SimpleImage.blank(image.width, image.height)
 
-	# TODO: Write this function!
+	width = image.width
+
+	for pixel in flipped:
+		x = pixel.x
+		y = pixel.y
+
+		flipped.set_pixel(x, y, image.get_pixel(width - 1 - x, y))
 	
 	return flipped
-
 
 def main():
 	image = SimpleImage("stanford.jpg")

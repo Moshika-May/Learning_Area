@@ -16,7 +16,15 @@ def rotate_180(image):
 	"""
 	rotated = SimpleImage.blank(image.width, image.height)
 
-	# TODO: Write this function!
+	height = image.height
+	width = image.width
+
+	for pixel in rotated:
+		x = pixel.x
+		y = pixel.y
+
+		rotated.set_pixel(x, y, image.get_pixel(width - 1 - x, height - 1 - y))
+
 	return rotated
 
 
