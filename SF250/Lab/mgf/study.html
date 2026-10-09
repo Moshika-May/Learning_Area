@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MGF Study Guide</title>
+<style>
+:root{--bg:#fafaf7;--fg:#1c1c1a;--mut:#62625c;--card:#fff;--line:#dcdcd4;--acc:#2b6cb0;--acc2:#d9480f;--soft:#eef3f9}
+@media(prefers-color-scheme:dark){:root{--bg:#151515;--fg:#ececea;--mut:#a0a09a;--card:#1f1f1f;--line:#383836;--acc:#63b3ed;--acc2:#ff922b;--soft:#1b2430}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:860px;margin:0 auto;padding:24px 16px 80px}
+h1{font-size:2rem;line-height:1.2;margin:.4em 0 .2em}
+h2{font-size:1.45rem;margin:2.2em 0 .4em;padding-top:.6em;border-top:1px solid var(--line)}
+h3{font-size:1.1rem;margin:1.6em 0 .3em}
+p{margin:.6em 0}
+.lead{color:var(--mut);font-size:1.05rem}
+code,.f{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em}
+.f{display:block;background:var(--soft);border-left:4px solid var(--acc);padding:10px 14px;margin:.8em 0;overflow-x:auto;white-space:pre}
+.box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:1em 0}
+.key{border-left:4px solid var(--acc2)}
+nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.92rem;margin:.8em 0}
+nav a{color:var(--acc)}
+a{color:var(--acc)}
+.ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 18px;margin:.6em 0}
+.ctl label{display:block;font-size:.9rem;color:var(--mut)}
+.ctl b{color:var(--fg)}
+input[type=range]{width:100%}
+select{font:inherit;padding:4px 8px;background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:6px}
+canvas{width:100%;height:210px;display:block;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.cap{font-size:.88rem;color:var(--mut);margin:.3em 0 1em}
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;margin:.8em 0}
+.nums div{background:var(--soft);border-radius:8px;padding:8px 12px;font-size:.92rem}
+.nums b{display:block;font-size:1.2rem;font-variant-numeric:tabular-nums}
+table{border-collapse:collapse;width:100%;font-size:.88rem;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:3px 8px;text-align:right}
+th{color:var(--mut);font-weight:600}
+details{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 14px;margin:.5em 0}
+summary{cursor:pointer;font-weight:600}
+dt{font-weight:700;margin-top:.7em}dd{margin:0 0 0 1em;color:var(--mut)}
+.tag{display:inline-block;background:var(--acc);color:var(--bg);border-radius:4px;padding:0 7px;font-size:.8rem;font-weight:700}
+</style>
+</head>
+<body>
+<main>
+
+<h1>Moment Generating Functions, from zero</h1>
+<p class="lead">Read top to bottom. Part 2 is an interactive playground: drag the sliders and watch what happens. No math background beyond "average" is assumed.</p>
+<nav>
+  <a href="#idea">1. The one idea</a>
+  <a href="#play">2. Playground</a>
+  <a href="#why">3. Why it is useful</a>
+  <a href="#disc">4. Discrete</a>
+  <a href="#cont">5. Continuous</a>
+  <a href="#c">6. Your C programs</a>
+  <a href="#quiz">7. Self-check</a>
+  <a href="#gloss">Glossary</a>
+</nav>
+
+<h2 id="idea">1. The one idea</h2>
+<p>A <b>random variable</b> <code>X</code> is a number you don't know yet: a die roll, the number of emails you get today, the waiting time for a bus. A <b>distribution</b> says how likely each value is.</p>
+<p>The <b>average</b> (expected value) of something <code>g(X)</code> is written <code>E[g(X)]</code>: each possible value times its probability, added up.</p>
+<div class="box key">
+<p><b>The moment generating function is just one particular average:</b></p>
+<span class="f">M(t) = E[ e^(t·X) ]</span>
+<p>For each value of the dial <code>t</code>, you average the number <code>e^(t·X)</code>. That is all it is. Different <code>t</code> gives a different average, so <code>M</code> is a function of <code>t</code>.</p>
+</div>
+<h3>What does the dial t do?</h3>
+<p><code>e^(t·x)</code> is a <b>weight</b> placed on each value <code>x</code>.</p>
+<ul>
+<li><code>t = 0</code>: <code>e^0 = 1</code> for everything. No favourites. So <code>M(0) = 1</code> always (probabilities add to 1).</li>
+<li><code>t &gt; 0</code>: big <code>x</code> get a big weight. The average is dominated by the <b>right side</b> of the distribution.</li>
+<li><code>t &lt; 0</code>: big <code>x</code> get squashed, small <code>x</code> dominate. The average is dominated by the <b>left side</b>.</li>
+</ul>
+<p>So think of <code>t</code> as a <b>tilt</b>: positive tilts the distribution toward the right, negative toward the left. <code>M(t)</code> is the total after tilting.</p>
+
+<h2 id="play">2. Playground</h2>
+<p>Pick a distribution, then move the <b>t</b> slider slowly. Watch the three pictures and the numbers underneath.</p>
+
+<div class="box">
+  <div class="ctl">
+    <label>Distribution<br>
+      <select id="dist">
+        <option value="bernoulli">Bernoulli (discrete)</option>
+        <option value="binomial" selected>Binomial (discrete)</option>
+        <option value="poisson">Poisson (discrete)</option>
+        <option value="uniform">Uniform (continuous)</option>
+        <option value="exponential">Exponential (continuous)</option>
+        <option value="gaussian">Gaussian (continuous)</option>
+      </select>
+    </label>
+    <span id="params" style="display:contents"></span>
+    <label>t (the tilt dial): <b id="tv"></b><br><input id="t" type="range" min="-3" max="3" step="0.05" value="0"></label>
+  </div>
+
+  <h3 style="margin-top:.4em">Picture A: the distribution itself</h3>
+  <canvas id="cA"></canvas>
+  <p class="cap" id="capA"></p>
+
+  <h3 style="margin-top:.4em">Picture B: the same picture after tilting by <code>e^(t·x)</code></h3>
+  <canvas id="cB"></canvas>
+  <p class="cap" id="capB"></p>
+
+  <div class="nums">
+    <div>M(t) from the formula<b id="nM"></b></div>
+    <div id="lblN">M(t) from adding up picture B<b id="nN"></b></div>
+    <div>mean (slope at t=0)<b id="nMean"></b></div>
+    <div>variance (bend at t=0)<b id="nVar"></b></div>
+  </div>
+  <div id="tbl"></div>
+
+  <h3>Picture C: M(t) for every t at once</h3>
+  <canvas id="cC"></canvas>
+  <p class="cap" id="capC"></p>
+</div>
+
+<div class="box">
+<b>Things to do in the playground</b>
+<ol>
+<li>Keep <b>t = 0</b>. Pictures A and B are identical and M = 1. Now drag t right: B's right side grows and M climbs. Drag left: B shrinks toward the left and M falls toward 0.</li>
+<li>In Picture C, the orange dot is "where you are". The dashed line is the tangent at t = 0. Its slope is the <b>mean</b>.</li>
+<li>Choose <b>Binomial</b>, raise n. The curve gets steeper at t = 0 because the mean n·p grows.</li>
+<li>Choose <b>Exponential</b> and push t toward λ. M blows up to infinity. At t ≥ λ the average does not exist at all (the sum of weights never stops growing).</li>
+<li>Choose <b>Gaussian</b>. Picture C is a perfect parabola when drawn as log M. That is <code>μt + σ²t²/2</code>, so slope μ and bend σ².</li>
+</ol>
+</div>
+
+<h2 id="why">3. Why bother? The name "moment generating"</h2>
+<p>The <b>moments</b> of X are <code>E[X]</code> (mean), <code>E[X²]</code>, <code>E[X³]</code>, ... Variance comes from the first two: <code>Var(X) = E[X²] − E[X]²</code>.</p>
+<p>Expand the weight as a power series:</p>
+<span class="f">e^(tX) = 1 + t·X + t²·X²/2 + t³·X³/6 + ...
+
+M(t)   = 1 + t·E[X] + t²·E[X²]/2 + t³·E[X³]/6 + ...</span>
+<p>Every moment is sitting inside <code>M(t)</code> as a coefficient. To pull one out, take derivatives at <code>t = 0</code>:</p>
+<span class="f">M'(0)  = E[X]        (the mean)
+M''(0) = E[X²]       (so Var = M''(0) − M'(0)²)</span>
+<h3>Worked example: Bernoulli(p)</h3>
+<p>X is 1 with probability p and 0 otherwise (a biased coin flip).</p>
+<span class="f">M(t)  = (1−p)·e^(t·0) + p·e^(t·1) = 1 − p + p·e^t
+M'(t) = p·e^t      → M'(0)  = p        → mean = p
+M''(t)= p·e^t      → M''(0) = p        → E[X²] = p
+Var   = p − p² = p(1−p)</span>
+<p>You never had to sum over outcomes again. Differentiate, plug in 0.</p>
+<h3>The log version, K(t)</h3>
+<p><code>K(t) = log M(t)</code> is called the <b>cumulant function</b>. Even easier:</p>
+<span class="f">K'(0)  = mean
+K''(0) = variance</span>
+<p>The C programs use K because for large n, <code>M(t)</code> is a monstrous number (like e^360,000,000) that a computer cannot store, while <code>K(t)</code> is a normal-sized number.</p>
+<div class="box key"><b>Bonus superpower.</b> If X and Y are <i>independent</i>, then <code>M<sub>X+Y</sub>(t) = M<sub>X</sub>(t) · M<sub>Y</sub>(t)</code>. Adding random variables becomes multiplying functions. That is how the Binomial is built below.</div>
+
+<h2 id="disc">4. The discrete trio</h2>
+<p>"Discrete" means X takes separate values (0, 1, 2, ...). The average is a <b>sum</b>: <code>M(t) = Σ e^(t·k) · P(X=k)</code>. The table in the playground shows exactly this sum, term by term.</p>
+
+<h3>Bernoulli(p) <span class="tag">one coin flip</span></h3>
+<span class="f">M(t) = 1 − p + p·e^t        mean p      variance p(1−p)</span>
+
+<h3>Binomial(n, p) <span class="tag">n coin flips, count the heads</span></h3>
+<p>X = (flip 1) + (flip 2) + ... + (flip n), all independent Bernoulli. Multiply n copies of the Bernoulli MGF:</p>
+<span class="f">M(t) = (1 − p + p·e^t)^n    mean n·p    variance n·p·(1−p)</span>
+<p>Check with the derivative: <code>M'(t) = n(1−p+pe^t)^(n−1)·p·e^t</code>, and at t = 0 the bracket is 1, so <code>M'(0) = n·p</code>.</p>
+
+<h3>Poisson(λ) <span class="tag">counting rare events: emails per hour</span></h3>
+<p>Start from the definition and use the series <code>e^z = Σ z^k / k!</code>:</p>
+<span class="f">M(t) = Σ e^(t·k) · e^(−λ) · λ^k / k!
+     = e^(−λ) · Σ (λ·e^t)^k / k!
+     = e^(−λ) · e^(λ·e^t)
+     = exp( λ·(e^t − 1) )        mean λ    variance λ</span>
+
+<h2 id="cont">5. The continuous trio</h2>
+<p>"Continuous" means X can be any real number in a range. The sum becomes an <b>integral</b> (area under a curve). In Picture B, <code>M(t)</code> is literally the shaded area.</p>
+<span class="f">M(t) = ∫ e^(t·x) · f(x) dx        (f is the density, the curve in Picture A)</span>
+
+<h3>Uniform(a, b) <span class="tag">every value in [a,b] equally likely</span></h3>
+<span class="f">M(t) = (e^(t·b) − e^(t·a)) / (t·(b − a))     (and M(0) = 1)
+mean (a+b)/2      variance (b−a)²/12</span>
+<p>Comes from integrating <code>e^(tx)/(b−a)</code> over [a, b].</p>
+
+<h3>Exponential(λ) <span class="tag">waiting times</span></h3>
+<span class="f">M(t) = ∫₀^∞ λ·e^(−λx)·e^(t·x) dx = λ / (λ − t)       only when t &lt; λ
+mean 1/λ      variance 1/λ²</span>
+<p>The exponent is <code>−(λ−t)x</code>. If <code>t ≥ λ</code> it does not decay and the area is infinite: the MGF only exists on part of the t-line. That is real and worth remembering.</p>
+
+<h3>Gaussian(μ, σ) <span class="tag">the bell curve</span></h3>
+<span class="f">M(t) = exp( μ·t + σ²·t²/2 )       mean μ    variance σ²</span>
+<p>Complete the square in the exponent and the integral collapses to this. Notice <code>log M</code> is a parabola, with slope μ at 0 and bend σ². Nothing else (no higher terms) is needed to describe a Gaussian.</p>
+
+<h2 id="c">6. How this maps to your C programs</h2>
+<span class="f">./mgf_discrete binomial 20 0.4
+./mgf_continuous gaussian 1 2</span>
+<p>Here is what each part of the printed output means in the language above.</p>
+<dl>
+<dt>K closed</dt><dd>log of the textbook formula from sections 4 and 5.</dd>
+<dt>K brute-sum / K integral</dt><dd>log of the definition computed by actually adding (discrete) or integrating (continuous). It is the "adding up picture B" number from the playground. It should equal K closed. When it does, the formula is verified.</dd>
+<dt>|diff|</dt><dd>their gap. Tiny means correct.</dd>
+<dt>mean numeric, var numeric</dt><dd>K'(0) and K''(0) estimated by finite differences. Same idea as section 3.</dd>
+<dt>top ASCII graph</dt><dd>Picture A.</dd>
+<dt>bottom ASCII graph</dt><dd>Picture C.</dd>
+</dl>
+<p>Try the same parameters in the playground and in the program and compare the numbers.</p>
+
+<h2 id="quiz">7. Self-check</h2>
+<p>Try to answer before opening each one.</p>
+<details><summary>Why is M(0) always 1?</summary><p>At t = 0 the weight e^(0·x) is 1 for every x, so you are averaging the number 1, which is 1.</p></details>
+<details><summary>X is Poisson with λ = 3. What is E[X] using the MGF?</summary><p>M(t) = exp(3(e^t − 1)). M'(t) = 3e^t·M(t). At t = 0: 3·1·1 = 3.</p></details>
+<details><summary>Picture C for Binomial(10, 0.4): the slope at t = 0 should be?</summary><p>The mean n·p = 4 (for log M; for M itself the slope is also 4, since M(0) = 1).</p></details>
+<details><summary>Why does the Exponential MGF stop at t = λ?</summary><p>The integrand becomes e^(−(λ−t)x). When t ≥ λ it no longer shrinks as x grows, so the area is infinite.</p></details>
+<details><summary>Why does the Binomial MGF equal the Bernoulli MGF to the power n?</summary><p>A binomial is a sum of n independent Bernoulli variables, and for independent variables the MGF of the sum is the product of the MGFs.</p></details>
+<details><summary>Two different distributions with the same MGF near t = 0: possible?</summary><p>No. If the MGF exists around 0, it identifies the distribution uniquely. That is why MGFs are used to prove things like "a sum of Gaussians is Gaussian".</p></details>
+
+<h2 id="gloss">Glossary</h2>
+<dl>
+<dt>Random variable (X)</dt><dd>A number whose value is not known yet.</dd>
+<dt>pmf</dt><dd>Probability mass function: P(X = k) for discrete X.</dd>
+<dt>pdf</dt><dd>Probability density function f(x) for continuous X. Areas under it are probabilities.</dd>
+<dt>E[...] expected value</dt><dd>The probability-weighted average.</dd>
+<dt>Moment</dt><dd>E[X], E[X²], E[X³]... The first is the mean; the first two give the variance.</dd>
+<dt>MGF, M(t)</dt><dd>E[e^(tX)].</dd>
+<dt>K(t)</dt><dd>log M(t). K'(0) is the mean, K''(0) is the variance.</dd>
+<dt>Independent</dt><dd>Knowing one tells you nothing about the other.</dd>
+</dl>
+
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const lf = [0]; for (let i = 1; i <= 700; i++) lf[i] = lf[i-1] + Math.log(i);
+const fmt = v => !isFinite(v) ? '∞ (diverges)' : (Math.abs(v) >= 1e6 || (v !== 0 && Math.abs(v) < 1e-4)) ? v.toExponential(3) : +v.toPrecision(6) + '';
+
+// [name, min, max, step, default]
+const DEFS = {
+  bernoulli: { discrete: 1, params: [['p', .05, .95, .05, .3]], make(P) {
+    return { xs: [0, 1], f: x => x ? P.p : 1 - P.p, M: t => 1 - P.p + P.p * Math.exp(t), mean: P.p, v: P.p * (1 - P.p) }; } },
+  binomial: { discrete: 1, params: [['n', 1, 40, 1, 10], ['p', .05, .95, .05, .4]], make(P) {
+    const n = P.n, xs = [...Array(n + 1).keys()];
+    const pm = xs.map(k => Math.exp(lf[n] - lf[k] - lf[n-k] + k * Math.log(P.p) + (n-k) * Math.log(1 - P.p)));
+    return { xs, f: k => pm[k], M: t => Math.pow(1 - P.p + P.p * Math.exp(t), n), mean: n * P.p, v: n * P.p * (1 - P.p) }; } },
+  poisson: { discrete: 1, params: [['λ', .5, 15, .5, 4]], make(P) {
+    const L = P['λ'], K = Math.min(60, Math.ceil(L + 6 * Math.sqrt(L) + 6)), xs = [...Array(K + 1).keys()];
+    const pm = xs.map(k => Math.exp(-L + k * Math.log(L) - lf[k]));
+    return { xs, f: k => pm[k], M: t => Math.exp(L * (Math.exp(t) - 1)), mean: L, v: L,
+      // terms beyond the drawn bars still matter when t is large
+      numM: t => { let s = 0; for (let k = 0; k <= 700; k++) s += Math.exp(-L + k * Math.log(L) - lf[k] + t * k); return s; } }; } },
+  uniform: { params: [['a', -3, 3, .5, 0], ['width (b−a)', .5, 6, .5, 2]], make(P) {
+    const a = P.a, b = a + P['width (b−a)'], w = b - a;
+    return { lo: a - .15 * w, hi: b + .15 * w, f: x => x >= a && x <= b ? 1 / w : 0,
+      M: t => Math.abs(t * w) < 1e-9 ? 1 : (Math.exp(t * b) - Math.exp(t * a)) / (t * w),
+      range: t => [a, b], mean: (a + b) / 2, v: w * w / 12 }; } },
+  exponential: { params: [['λ', .5, 5, .5, 2]], make(P) {
+    const L = P['λ'];
+    return { lo: 0, hi: 6 / L, f: x => x < 0 ? 0 : L * Math.exp(-L * x),
+      M: t => t < L ? L / (L - t) : Infinity, range: t => t < L ? [0, 60 / (L - t)] : null, mean: 1 / L, v: 1 / (L * L) }; } },
+  gaussian: { params: [['μ', -3, 3, .5, 0], ['σ', .5, 3, .25, 1]], make(P) {
+    const m = P['μ'], s = P['σ'];
+    return { lo: m - 4 * s, hi: m + 4 * s, f: x => Math.exp(-.5 * ((x - m) / s) ** 2) / (s * Math.sqrt(2 * Math.PI)),
+      M: t => Math.exp(m * t + s * s * t * t / 2), range: t => [m + s*s*t - 12*s, m + s*s*t + 12*s], mean: m, v: s * s }; } },
+};
+const FORMULA = { bernoulli: 'M(t) = 1 − p + p·eᵗ', binomial: 'M(t) = (1 − p + p·eᵗ)ⁿ', poisson: 'M(t) = exp(λ(eᵗ − 1))',
+  uniform: 'M(t) = (e^(tb) − e^(ta)) / (t(b−a))', exponential: 'M(t) = λ/(λ − t), t < λ', gaussian: 'M(t) = exp(μt + σ²t²/2)' };
+
+let P = {}, name = 'binomial';
+
+function buildParams() {
+  const d = DEFS[name]; P = {}; $('params').innerHTML = '';
+  d.params.forEach(([k, lo, hi, st, v]) => {
+    P[k] = v;
+    const l = document.createElement('label');
+    l.innerHTML = `${k}: <b>${v}</b><br><input type="range" min="${lo}" max="${hi}" step="${st}" value="${v}">`;
+    l.querySelector('input').oninput = e => { P[k] = +e.target.value; l.querySelector('b').textContent = P[k]; render(); };
+    $('params').appendChild(l);
+  });
+}
+
+function setup(c) {
+  const r = devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
+  c.width = w * r; c.height = h * r;
+  const g = c.getContext('2d'); g.setTransform(r, 0, 0, r, 0, 0); g.clearRect(0, 0, w, h);
+  g.font = '12px system-ui'; return [g, w, h];
+}
+
+// generic chart frame: returns mapping fns
+function frame(c, x0, x1, y0, y1, ylab) {
+  const [g, W, H] = setup(c), L = 54, R = 12, T = 12, B = 24;
+  const X = x => L + (x - x0) / (x1 - x0) * (W - L - R), Y = y => H - B - (y - y0) / (y1 - y0) * (H - T - B);
+  g.strokeStyle = css('--line'); g.fillStyle = css('--mut'); g.lineWidth = 1;
+  g.beginPath(); g.moveTo(L, T); g.lineTo(L, H - B); g.lineTo(W - R, H - B); g.stroke();
+  g.textAlign = 'left'; g.fillText(+x0.toPrecision(3), L, H - 7);
+  g.textAlign = 'right'; g.fillText(+x1.toPrecision(3), W - R, H - 7);
+  g.fillText(ylab(y1), L - 5, T + 10); g.fillText(ylab(y0), L - 5, H - B);
+  return { g, X, Y, L, R, T, B, W, H };
+}
+
+function bars(c, d, ys, color) {
+  const ymax = Math.max(...ys, 1e-300), n = d.xs.length;
+  const F = frame(c, d.xs[0] - .5, d.xs[n-1] + .5, 0, ymax, v => fmt(+v.toPrecision(3)));
+  const bw = Math.max(2, (F.X(1) - F.X(0)) * .7);
+  F.g.fillStyle = color;
+  d.xs.forEach((x, i) => { const y = F.Y(ys[i]); F.g.fillRect(F.X(x) - bw / 2, y, bw, F.Y(0) - y); });
+  if (n <= 21) { F.g.fillStyle = css('--mut'); F.g.textAlign = 'center'; d.xs.forEach(x => F.g.fillText(x, F.X(x), F.H - 7)); }
+}
+
+function area(c, d, fn, color) {
+  const N = 300, xs = [], ys = []; let ymax = 1e-300;
+  for (let i = 0; i <= N; i++) { const x = d.lo + (d.hi - d.lo) * i / N; xs.push(x); const y = fn(x); ys.push(y); ymax = Math.max(ymax, y); }
+  const F = frame(c, d.lo, d.hi, 0, ymax, v => fmt(+v.toPrecision(3)));
+  F.g.beginPath(); F.g.moveTo(F.X(xs[0]), F.Y(0));
+  xs.forEach((x, i) => F.g.lineTo(F.X(x), F.Y(ys[i])));
+  F.g.lineTo(F.X(xs[N]), F.Y(0)); F.g.closePath();
+  F.g.globalAlpha = .35; F.g.fillStyle = color; F.g.fill(); F.g.globalAlpha = 1;
+  F.g.strokeStyle = color; F.g.lineWidth = 2; F.g.stroke();
+}
+
+function integ(g, lo, hi) { // Simpson
+  const N = 4000, h = (hi - lo) / N; let s = g(lo) + g(hi);
+  for (let i = 1; i < N; i++) s += g(lo + i * h) * (i % 2 ? 4 : 2);
+  return s * h / 3;
+}
+
+function render() {
+  const d = DEFS[name], D = d.make(P), t = +$('t').value;
+  $('tv').textContent = t.toFixed(2);
+  const w = x => Math.exp(t * x), g = x => D.f(x) * w(x);
+  const cA = $('cA'), cB = $('cB');
+  let numeric;
+  if (d.discrete) {
+    bars(cA, D, D.xs.map(D.f), css('--acc'));
+    bars(cB, D, D.xs.map(g), css('--acc2'));
+    numeric = D.numM ? D.numM(t) : D.xs.reduce((s, x) => s + g(x), 0);
+    $('capA').textContent = 'Height of each bar = probability P(X = k).';
+    $('capB').textContent = 'Each bar from A multiplied by its weight e^(t·k). Add all these bars up and you get M(t). (Heights use their own scale, read the number on the axis.)';
+    $('lblN').firstChild.nodeValue = 'M(t) from adding up picture B';
+    let rows = '', run = 0; const show = D.xs.slice(0, 12);
+    show.forEach(k => { const term = g(k); run += term;
+      rows += `<tr><td>${k}</td><td>${fmt(+D.f(k).toPrecision(4))}</td><td>${fmt(+w(k).toPrecision(4))}</td><td>${fmt(+term.toPrecision(4))}</td><td>${fmt(+run.toPrecision(5))}</td></tr>`; });
+    $('tbl').innerHTML = `<details open><summary>The sum written out (first ${show.length} of ${D.xs.length} values)</summary><table><tr><th>k</th><th>P(X=k)</th><th>weight e^(t·k)</th><th>P × weight</th><th>running total</th></tr>${rows}</table>${D.xs.length > 12 ? '<p class="cap">…and the remaining terms add the rest. The last running total is M(t).</p>' : ''}</details>`;
+  } else {
+    area(cA, D, D.f, css('--acc'));
+    area(cB, D, g, css('--acc2'));
+    const r = D.range(t);
+    numeric = r ? integ(g, r[0], r[1]) : Infinity;
+    $('capA').textContent = 'Height = density f(x). Area under the curve = probability.';
+    $('capB').textContent = t >= (P['λ'] || Infinity) && name === 'exponential'
+      ? 'Here the weight beats the decay, so the curve never comes down: the area is infinite. M(t) does not exist.'
+      : 'The curve from A multiplied by e^(t·x). The shaded AREA of this picture is M(t).';
+    $('lblN').firstChild.nodeValue = 'M(t) from area of picture B';
+    $('tbl').innerHTML = '';
+  }
+  $('nM').textContent = fmt(D.M(t));
+  $('nN').textContent = fmt(numeric);
+  $('nMean').textContent = fmt(D.mean) + '   ' ;
+  $('nVar').textContent = fmt(D.v);
+  drawC(D, t);
+}
+
+function drawC(D, t) {
+  const ts = [], ms = []; let mx = 0;
+  for (let i = 0; i <= 240; i++) { const x = -3 + 6 * i / 240; ts.push(x); const m = D.M(x); ms.push(m); if (isFinite(m)) mx = Math.max(mx, m); }
+  const useLog = mx > 500, tr = m => useLog ? Math.log(m) : m;
+  const ys = ms.map(m => isFinite(m) ? tr(m) : NaN);
+  const fin = ys.filter(isFinite);
+  let y0 = Math.min(...fin, useLog ? 0 : 0), y1 = Math.max(...fin);
+  if (!useLog) y1 = Math.min(y1, 12);
+  if (y1 - y0 < 1e-9) y1 = y0 + 1;
+  const F = frame($('cC'), -3, 3, y0, y1, v => fmt(+v.toPrecision(3)));
+  const g = F.g; g.save(); g.beginPath(); g.rect(F.L, F.T, F.W - F.L - F.R, F.H - F.T - F.B); g.clip();
+  // t = 0 line
+  g.strokeStyle = css('--line'); g.beginPath(); g.moveTo(F.X(0), F.T); g.lineTo(F.X(0), F.H - F.B); g.stroke();
+  // curve
+  g.strokeStyle = css('--acc'); g.lineWidth = 2.5; g.beginPath(); let pen = false;
+  ts.forEach((x, i) => { if (!isFinite(ys[i])) { pen = false; return; } pen ? g.lineTo(F.X(x), F.Y(ys[i])) : g.moveTo(F.X(x), F.Y(ys[i])); pen = true; }); g.stroke();
+  // tangent at 0
+  const tg = x => useLog ? D.mean * x : 1 + D.mean * x;
+  g.setLineDash([6, 5]); g.strokeStyle = css('--mut'); g.lineWidth = 1.5; g.beginPath(); g.moveTo(F.X(-3), F.Y(tg(-3))); g.lineTo(F.X(3), F.Y(tg(3))); g.stroke(); g.setLineDash([]);
+  // current t
+  const mv = D.M(t);
+  g.strokeStyle = css('--acc2'); g.setLineDash([2, 4]); g.beginPath(); g.moveTo(F.X(t), F.T); g.lineTo(F.X(t), F.H - F.B); g.stroke(); g.setLineDash([]);
+  if (isFinite(mv)) { g.fillStyle = css('--acc2'); g.beginPath(); g.arc(F.X(t), F.Y(tr(mv)), 6, 0, 7); g.fill(); }
+  g.restore();
+  g.fillStyle = css('--mut'); g.textAlign = 'center'; g.fillText('t', F.W / 2, F.H - 7);
+  $('capC').innerHTML = (useLog ? '<b>Showing log M(t)</b> because M(t) gets too huge to draw. ' : 'Showing M(t) itself. ') +
+    'Blue = the function. Orange dot = your current t. Dashed grey = tangent at t = 0 (slope = mean). ' +
+    (name === 'exponential' ? 'The curve stops where t reaches λ: beyond that M does not exist.' : '');
+}
+
+$('dist').onchange = e => { name = e.target.value; buildParams(); render(); };
+$('t').oninput = render;
+addEventListener('resize', render);
+buildParams(); render();
+</script>
+</body>
+</html>
