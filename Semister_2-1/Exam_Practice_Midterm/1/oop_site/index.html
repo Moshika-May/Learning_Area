@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>เรียน OOP Python</title>
+<style>
+:root{--bg:#fff;--fg:#1c1c28;--card:#f4f5fa;--ac:#5b5bd6;--code:#16161e;--cf:#e6e6f0;--ok:#1a7f4b;--err:#c0392b}
+@media(prefers-color-scheme:dark){:root{--bg:#14141c;--fg:#e8e8f0;--card:#1e1e2a;--ac:#8c8cff;--code:#0c0c12;--cf:#e6e6f0}}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.7 system-ui,"Noto Sans Thai",sans-serif}
+nav{position:sticky;top:0;background:var(--card);padding:8px 16px;display:flex;gap:6px;flex-wrap:wrap;z-index:2}
+nav a{color:var(--ac);text-decoration:none;padding:2px 8px;border-radius:6px;font-size:14px}
+nav a:hover{background:var(--bg)}
+main{max-width:820px;margin:0 auto;padding:0 16px 80px}
+h2{margin-top:56px;border-left:5px solid var(--ac);padding-left:10px}
+.box{background:var(--card);border-radius:10px;padding:10px 16px;margin:14px 0}
+.tip{border-left:4px solid var(--ok)} .warn{border-left:4px solid var(--err)}
+code{background:var(--card);padding:1px 6px;border-radius:4px;font-size:.92em}
+.ed{margin:14px 0}
+textarea{width:100%;box-sizing:border-box;background:var(--code);color:var(--cf);border:0;border-radius:8px 8px 0 0;padding:12px;font:14px/1.5 ui-monospace,monospace;tab-size:4;resize:vertical}
+button{background:var(--ac);color:#fff;border:0;border-radius:6px;padding:6px 16px;cursor:pointer;font-size:14px}
+pre.out{margin:0;background:#000;color:#9fe;padding:10px 12px;border-radius:0 0 8px 8px;min-height:1.5em;white-space:pre-wrap;font-size:14px}
+.q button{background:var(--card);color:var(--fg);border:1px solid var(--ac);margin:4px 4px 4px 0}
+</style></head><body>
+<nav><a href="#s1">1 class/object</a><a href="#s2">2 self</a><a href="#s3">3 _ และ @property</a><a href="#s4">4 Encapsulation</a><a href="#s5">5 สืบทอด</a><a href="#s6">6 super()</a><a href="#s7">7 Polymorphism</a><a href="#s8">8 ข้อสอบ</a><a href="#s9">9 Quiz</a></nav>
+<main>
+<h1>เรียน OOP ด้วย Python 🐍</h1>
+<p>ทุกกล่องโค้ดแก้ได้และกด <b>▶ Run</b> ได้เลย — ลองแก้เล่นเยอะ ๆ จะเข้าใจเร็วสุด</p>
+
+<h2 id="s1">1. class กับ object และ <code>from ball_base import Ball</code></h2>
+<p><b>class</b> = แบบพิมพ์เขียว (เหมือนแม่พิมพ์ขนม)<br><b>object</b> = ของจริงที่สร้างจากแบบพิมพ์ (ขนมแต่ละชิ้น)</p>
+<div class="box"><code>from ball_base import Ball</code> แปลว่า: "ไปที่ไฟล์ <code>ball_base.py</code> แล้วหยิบ class ชื่อ <code>Ball</code> มาใช้ในไฟล์นี้"<br>
+<code>from ไฟล์ import ของที่ต้องการ</code> — ถ้าไม่ import ก็จะไม่รู้จักชื่อ Ball</div>
+<div class="ed"><textarea rows="9">class Dog:
+    def __init__(self, name):   # ทำงานอัตโนมัติตอนสร้าง object
+        self.name = name
+
+    def bark(self):
+        print(self.name, "โฮ่ง!")
+
+a = Dog("โต้ง")   # สร้าง object ตัวที่ 1
+b = Dog("ถั่ว")   # สร้าง object ตัวที่ 2
+a.bark()
+b.bark()</textarea><button>▶ Run</button><pre class="out"></pre></div>
+
+<h2 id="s2">2. <code>self</code> และ <code>.</code> (จุด) คืออะไร</h2>
+<div class="box"><b>self</b> = "ตัวฉันเอง" — คือ object ที่กำลังทำงานอยู่ตอนนั้น<br>
+<b>.</b> (จุด) = "ของ" หรือ "ข้างใน" เช่น <code>self.name</code> = "name ของตัวฉัน", <code>a.bark()</code> = "สั่งให้ a เห่า"</div>
+<p>ตอนเรียก <code>a.bark()</code> Python แอบส่ง <code>a</code> เข้าไปเป็น <code>self</code> ให้เอง เราเลยไม่ต้องใส่ในวงเล็บ<br>
+ที่ต้องเขียน <code>self.name = name</code>: ตัวซ้าย = ของที่เก็บไว้ใน object, ตัวขวา = ค่าที่ส่งเข้ามาเฉย ๆ (หายไปหลังฟังก์ชันจบ)</p>
+<div class="ed"><textarea rows="10">class Dog:
+    def __init__(self, name):
+        self.name = name     # เก็บไว้ใน object
+        temp = name * 2      # ตัวแปรธรรมดา หายหลังจบ __init__
+
+a = Dog("โต้ง")
+print(a.name)    # ได้ เพราะเก็บใน self
+print(hasattr(a, "temp"))   # False — ไม่ได้เก็บ</textarea><button>▶ Run</button><pre class="out"></pre></div>
+<div class="box warn">ลืมเขียน <code>self.</code> = ตัวแปรกลายเป็นของธรรมดา object จำไม่ได้ ← บั๊กยอดฮิตในข้อสอบ</div>
+
+<h2 id="s3">3. <code>_</code> หน้าชื่อ และ <code>@property</code></h2>
+<p><code>self._radius</code> — เครื่องหมาย <code>_</code> หน้าชื่อ คือ <b>ข้อตกลง</b> ว่า "ข้างในนะ อย่าแตะจากข้างนอก" (Python ไม่ได้ล็อกจริง แต่ถ้าแตะเท่ากับผิดมารยาท)</p>
+<p><code>@property</code> = ทำให้ฟังก์ชันถูกเรียกเหมือน <b>ตัวแปร</b> (ไม่ต้องใส่วงเล็บ) และ ทำให้ <b>อ่านได้อย่างเดียว</b></p>
+<div class="box tip">ตอบคำถามเรื่อง "leak": จริง ๆ ตรงข้ามเลย! ไม่ได้ปล่อยให้รั่ว แต่เป็น <b>"หน้าต่างกระจก"</b> — ให้ดู (<code>ball.radius</code>) แต่ไม่ให้แก้ (<code>ball.radius = 5</code> จะ error)<br>
+ชื่อฟังก์ชัน <code>radius</code> (ไม่มี _) = ชื่อสาธารณะที่คนนอกใช้ / ตัวเก็บจริง <code>_radius</code> (มี _) = ของส่วนตัวข้างใน ชื่อต้องต่างกัน ไม่งั้นวนไม่รู้จบ</div>
+<div class="ed"><textarea rows="16">class Ball:
+    def __init__(self, radius):
+        self._radius = radius
+
+    @property
+    def radius(self):
+        return self._radius
+
+b = Ball(10)
+print(b.radius)        # ไม่มีวงเล็บ!
+try:
+    b.radius = 99      # พยายามแก้
+except AttributeError as e:
+    print("แก้ไม่ได้:", e)</textarea><button>▶ Run</button><pre class="out"></pre></div>
+<p>ถ้าอยากให้ "แก้ได้แต่ต้องผ่านการตรวจ" ใช้ <code>@x.setter</code>:</p>
+<div class="ed"><textarea rows="20">class Ball:
+    def __init__(self, radius):
+        self._radius = radius
+
+    @property
+    def radius(self):
+        return self._radius
+
+    @radius.setter
+    def radius(self, value):
+        if value <= 0:
+            raise ValueError("รัศมีต้องมากกว่า 0")
+        self._radius = value
+
+b = Ball(10)
+b.radius = 20      # ผ่าน setter
+print(b.radius)
+b.radius = -5      # ไม่ผ่าน!</textarea><button>▶ Run</button><pre class="out"></pre></div>
+
+<h2 id="s4">4. Encapsulation (การห่อหุ้ม)</h2>
+<div class="box"><b>ความหมาย:</b> เอา <u>ข้อมูล</u> กับ <u>ฟังก์ชันที่ใช้ข้อมูลนั้น</u> มาห่อไว้ใน class เดียวกัน แล้ว <b>ซ่อนข้อมูล</b> ไว้ข้างใน ให้คนนอกเข้าถึงผ่าน "ประตู" (method / property) เท่านั้น<br>
+<b>เหมือน:</b> เครื่อง ATM — คุณกดปุ่มได้ แต่เปิดตู้ไปหยิบเงินเองไม่ได้<br>
+<b>ทำไมต้องมี:</b> กันคนแก้ค่าผิด ๆ (เช่น ยอดเงินติดลบ) และถ้าแก้โค้ดข้างใน คนนอกไม่ต้องแก้ตาม<br>
+<b>ทำยังไงใน Python:</b> (1) ข้อมูลใช้ชื่อมี <code>_</code> (2) เปิดประตูด้วย <code>@property</code> หรือ method</div>
+<div class="ed"><textarea rows="22">class Account:
+    def __init__(self):
+        self._balance = 0          # ซ่อนไว้
+
+    @property
+    def balance(self):             # ดูได้
+        return self._balance
+
+    def deposit(self, amount):     # แก้ผ่านประตูที่มีกฎ
+        if amount > 0:
+            self._balance += amount
+
+acc = Account()
+acc.deposit(100)
+acc.deposit(-50)    # ถูกปฏิเสธเงียบ ๆ
+print(acc.balance)  # 100</textarea><button>▶ Run</button><pre class="out"></pre></div>
+
+<h2 id="s5">5. Inheritance: <code>class BouncingBall(Ball)</code></h2>
+<div class="box">วงเล็บหลังชื่อ class = <b>"พ่อแม่" (parent class)</b> อ่านว่า "BouncingBall เป็นลูกของ Ball" → ได้ทุกอย่างของ Ball มาฟรี (draw, radius, ...) แล้วเพิ่มหรือแก้เฉพาะที่ต่าง (เช่น move)<br>
+<b>ทำไม <code>class Ball:</code> ไม่มีวงเล็บ?</b> เพราะ Ball เป็น class ต้นตระกูล ไม่มีพ่อแม่ (จริง ๆ Python ถือว่าเป็นลูกของ <code>object</code> อัตโนมัติ — <code>class Ball:</code> กับ <code>class Ball(object):</code> เหมือนกัน)</div>
+<div class="ed"><textarea rows="18">class Animal:
+    def speak(self):
+        print("...")
+    def eat(self):
+        print("กิน")
+
+class Cat(Animal):        # Cat เป็นลูกของ Animal
+    def speak(self):      # override: เขียนทับของพ่อแม่
+        print("เมี๊ยว")
+
+c = Cat()
+c.eat()     # ไม่ได้เขียนใน Cat แต่ได้มาจาก Animal
+c.speak()   # ใช้ของ Cat เอง
+print(isinstance(c, Animal))   # True: แมวก็เป็นสัตว์</textarea><button>▶ Run</button><pre class="out"></pre></div>
+
+<h2 id="s6">6. <code>super()</code></h2>
+<div class="box"><code>super()</code> = "ตัวแทนพ่อแม่" — ใช้เรียก <b>method ของ parent</b> จากใน child<br>
+<code>super().__init__(...)</code> = "พ่อ/แม่ช่วยตั้งค่าของที่เป็นของพ่อแม่ให้หน่อย" (เช่น <code>_center_x</code>, <code>_radius</code> ที่ <code>Ball.__init__</code> เป็นคนสร้าง) แล้วลูกค่อยตั้งค่าของตัวเองต่อ<br>
+<b>ทำไมต้อง <code>.__init__</code> ต่อท้าย?</b> <code>super()</code> เฉย ๆ แค่ได้ "ตัวแทน" มา ต้องบอกว่าจะให้เรียก method ไหน — ตรงนี้ต้องการ constructor เลยเป็น <code>__init__</code> (จะ <code>super().move()</code> ก็ได้)<br>
+<b>ทำไมมักไว้บรรทัดแรก?</b> ไม่ได้บังคับ แต่ควร เพราะโค้ดลูกมักใช้ของที่พ่อแม่สร้าง ถ้ายังไม่เรียก ของพวกนั้นยังไม่เกิด<br>
+<b>สำคัญ:</b> ใน <code>super().__init__(...)</code> <u>ไม่ต้องใส่ self</u> และต้องส่ง argument ตามที่ <code>Ball.__init__</code> ต้องการให้ครบ</div>
+<div class="ed"><textarea rows="24">class Ball:
+    def __init__(self, x, radius):
+        self._x = x
+        self._radius = radius
+
+class BouncingBall(Ball):
+    def __init__(self, x, radius, speed):
+        super().__init__(x, radius)   # พ่อแม่ตั้ง _x, _radius
+        self._speed = speed           # ลูกตั้งของตัวเอง
+
+b = BouncingBall(5, 10, 3)
+print(b._x, b._radius, b._speed)
+
+# ลองลบบรรทัด super().__init__ ออก แล้วกด Run ใหม่ → AttributeError</textarea><button>▶ Run</button><pre class="out"></pre></div>
+
+<h2 id="s7">7. Polymorphism (ข้อ Q2 ในโฟลเดอร์ของคุณ)</h2>
+<div class="box">หลาย class มี method <b>ชื่อเดียวกัน</b> แต่ทำงาน <b>ต่างกัน</b> → ตัวเรียกไม่ต้องสน type เลย แค่สั่ง <code>ball.move()</code> แล้วแต่ละลูกจะเคลื่อนไหวตามแบบของตัวเอง (ในโค้ดคุณมีคอมเมนต์ <i>"no isinstance, no type test"</i> นี่แหละ)</div>
+<div class="ed"><textarea rows="24">class Ball:
+    def move(self):
+        pass
+
+class HorizontalBall(Ball):
+    def __init__(self): self.x = 0
+    def move(self):
+        self.x += 5
+
+class CircularBall(Ball):
+    def __init__(self): self.angle = 0
+    def move(self):
+        self.angle += 10
+
+balls = [HorizontalBall(), CircularBall(), HorizontalBall()]
+for b in balls:
+    b.move()              # ไม่ต้องเช็คว่าเป็นลูกอะไร
+print(balls[0].x, balls[1].angle)</textarea><button>▶ Run</button><pre class="out"></pre></div>
+
+<h2 id="s8">8. อ่านโค้ดข้อสอบของคุณทีละบรรทัด</h2>
+<div class="box">
+<code>class BouncingBall(Ball):</code> → ลูกของ Ball<br>
+<code>super().__init__(center_x, center_y, radius, speed, random_color())</code> → ให้ Ball ตั้ง 5 ค่าหลัก (สีสุ่มด้วย)<br>
+<code>self._dx = speed * math.cos(angle)</code> → ของใหม่ที่มีเฉพาะ BouncingBall (ทิศทาง)<br>
+<code>def move(self):</code> → override <code>move</code> ที่ Ball เขียนไว้ว่า <code>pass</code> (ไม่ทำอะไร)<br>
+<code>self._center_x += self._dx</code> → ใช้ตัวแปรที่ Ball สร้างให้ (ถึงเข้าถึงได้ เพราะลูกก็เข้าถึง <code>_</code> ของพ่อแม่ได้)<br>
+<code>for ball in balls: ball.move()</code> → polymorphism<br>
+<code>draw()</code> ไม่ได้เขียนใน BouncingBall แต่ใช้ได้ → inheritance</div>
+<p>ลองรันโค้ดจริงของข้อ Q1 แบบไม่มีหน้าจอ (ตัดส่วน pygame ออก):</p>
+<div class="ed"><textarea rows="30">import math, random
+WIDTH, HEIGHT = 800, 600
+
+class Ball:
+    def __init__(self, cx, cy, radius, speed, color):
+        self._center_x = cx; self._center_y = cy
+        self._radius = radius; self._speed = speed; self._color = color
+    @property
+    def center_x(self): return self._center_x
+    @property
+    def center_y(self): return self._center_y
+    def move(self): pass
+
+class BouncingBall(Ball):
+    def __init__(self, cx, cy, radius, speed):
+        super().__init__(cx, cy, radius, speed, "red")
+        a = random.uniform(0, 2 * math.pi)
+        self._dx = speed * math.cos(a)
+        self._dy = speed * math.sin(a)
+    def move(self):
+        self._center_x += self._dx
+        self._center_y += self._dy
+
+b = BouncingBall(100, 100, 18, 5)
+for i in range(3):
+    b.move()
+    print(round(b.center_x, 1), round(b.center_y, 1))</textarea><button>▶ Run</button><pre class="out"></pre></div>
+
+<h2 id="s9">9. Quiz เช็คตัวเอง</h2>
+<div id="quiz"></div>
+
+<h2>สรุปท่องก่อนสอบ</h2>
+<div class="box">
+• <b>self</b> = ตัว object เอง • <b>.</b> = "ของ"<br>
+• <b>_x</b> = ของข้างใน อย่าแตะนอก class • <b>@property</b> = อ่านได้ ไม่ต้องใส่ ()<br>
+• <b>Encapsulation</b> = ซ่อนข้อมูล เปิดทางผ่านประตู<br>
+• <b>class B(A)</b> = B ลูกของ A • <b>super().__init__(...)</b> = ให้พ่อแม่ตั้งค่าส่วนของพ่อแม่<br>
+• <b>Override</b> = ลูกเขียน method ชื่อเดิมทับ • <b>Polymorphism</b> = ชื่อเดียวกัน ทำต่างกัน
+</div>
+</main>
+<script>
+document.querySelectorAll('.ed').forEach(ed=>{
+  const ta=ed.querySelector('textarea'),out=ed.querySelector('.out'),btn=ed.querySelector('button');
+  ta.addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();document.execCommand('insertText',false,'    ')}});
+  btn.onclick=async()=>{
+    out.textContent='...';
+    try{const r=await fetch('/',{method:'POST',headers:{'X-Run':'1'},body:JSON.stringify({code:ta.value})});
+      out.textContent=(await r.json()).out||'(ไม่มี output)'}
+    catch{out.textContent='ติดต่อ server ไม่ได้ — รัน python3 server.py อยู่หรือเปล่า?'}
+  };
+});
+const Q=[
+ ["self หมายถึงอะไร",["ชื่อ class","object ที่กำลังทำงานอยู่","parent class"],1],
+ ["ball.radius = 5 เมื่อ radius เป็น @property ที่ไม่มี setter จะเกิดอะไร",["เปลี่ยนได้ปกติ","AttributeError","ไม่มีอะไรเกิดขึ้น"],1],
+ ["class Cat(Animal): วงเล็บบอกว่า",["Cat รับ Animal เป็น argument","Cat เป็นลูกของ Animal","Animal เป็นลูกของ Cat"],1],
+ ["super().__init__(...) ใช้ทำอะไร",["สร้าง class ใหม่","ให้ parent ตั้งค่าส่วนของ parent","ลบ object"],1],
+ ["ลูกไม่เรียก super().__init__ แล้วใช้ self._radius ที่ parent ตั้ง จะเกิด",["ได้ค่า 0","AttributeError","ได้ค่า None"],1],
+ ["Polymorphism คือ",["method ชื่อเดียวกัน ทำงานต่างกันตาม class","ซ่อนข้อมูล","import ไฟล์อื่น"],0],
+ ["Encapsulation คือ",["สืบทอดจาก parent","ซ่อนข้อมูลไว้ข้างใน เข้าผ่านประตูที่ควบคุมได้","หลาย class ชื่อเดียวกัน"],1]];
+const qd=document.getElementById('quiz');
+Q.forEach(([q,c,a],i)=>{const d=document.createElement('div');d.className='box q';
+  d.innerHTML=`<b>${i+1}. ${q}</b><br>`;
+  c.forEach((t,j)=>{const b=document.createElement('button');b.textContent=t;
+    b.onclick=()=>{b.textContent=(j===a?'✅ ':'❌ ')+t};d.appendChild(b)});qd.appendChild(d)});
+</script></body></html>
