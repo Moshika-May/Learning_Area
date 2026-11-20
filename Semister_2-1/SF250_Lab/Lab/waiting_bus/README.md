@@ -14,7 +14,7 @@ Same rate, but the random service makes you wait twice as long on average.
 ## Build and run
 
 ```
-gcc -Wall -Wextra -O2 waiting_times.c -o waiting_times -lm
+make
 ./waiting_times
 ```
 
@@ -39,6 +39,15 @@ random number `u` in (0, 1):
 Each wait is dropped into a histogram bin of width T/10. There are 30 bins
 covering 0 to 3T, and the last bin also collects any wait of 3T or more. The
 program prints the two histograms with the sample mean next to the theory.
+
+## Makefile shortcuts
+
+```
+make                        build ./waiting_times
+make run                    build and run, answering 15 and 100000 for you
+make run INPUT='10\n5000\n'  answer with your own two numbers
+make clean                  remove the program
+```
 
 ## Example
 
@@ -67,3 +76,4 @@ closer to 7.5 and 15.
 ## Files
 
 - `waiting_times.c`: the whole program.
+- `Makefile`: `make`, `make run`, `make clean`, `make re`.

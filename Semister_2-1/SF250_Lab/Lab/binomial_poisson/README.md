@@ -9,7 +9,7 @@ distributions so you can see how close they are.
 
 ```
 make
-./bp [n] [p] [samples] [seed]
+./binomial_poisson [n] [p] [samples] [seed]
 ```
 
 | Argument | Meaning | Default |
@@ -40,12 +40,21 @@ make it slow.
    `|Binomial - Poisson|` over the shown rows, and whether the rule of thumb
    `n > 50` and `p < 0.1` holds.
 
+## Makefile shortcuts
+
+```
+make                          build ./binomial_poisson
+make run                      build and run: ./binomial_poisson 100 0.05 100000 1
+make run ARGS="10 0.5 50000"  run with your own arguments
+make clean                    remove the program
+```
+
 ## Examples
 
 Good approximation (the defaults):
 
 ```
-$ ./bp 100 0.05 100000 1
+$ ./binomial_poisson 100 0.05 100000 1
 == Binomial B(n=100, p=0.05) vs Poisson Po(lambda=np=5), 100000 samples, seed=1 ==
   r  observed  Binomial   Poisson
   3   0.14165   0.13958   0.14037 ###############################
@@ -62,7 +71,7 @@ Rule of thumb (n > 50, p < 0.1): satisfied, approximation should be good
 Poor approximation (compare the sum of differences, about 0.33 here):
 
 ```
-./bp 10 0.5 50000 1
+./binomial_poisson 10 0.5 50000 1
 ```
 
 What to notice:
@@ -73,8 +82,8 @@ What to notice:
 
 ## Files
 
-- `bp.c`: argument parsing and `main`.
-- `bp_math.c`: the log-probabilities and the simulation.
-- `bp_print.c`: the table and the summary.
-- `bp.h`: shared structure and prototypes.
-- `Makefile`: `make`, `make clean`.
+- `binomial_poisson.c`: argument parsing and `main`.
+- `binomial_poisson_math.c`: the log-probabilities and the simulation.
+- `binomial_poisson_print.c`: the table and the summary.
+- `binomial_poisson.h`: shared structure and prototypes.
+- `Makefile`: `make`, `make run`, `make clean`, `make re`.

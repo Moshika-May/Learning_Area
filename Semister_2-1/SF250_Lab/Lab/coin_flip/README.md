@@ -9,7 +9,7 @@ z-test decides whether the coin looks fair.
 
 ```
 make
-./coin [N] [p_head] [seed]
+./coin_flip [N] [p_head] [seed]
 ```
 
 | Argument | Meaning | Default |
@@ -32,15 +32,25 @@ make
    heads has mean `np` and standard deviation `sqrt(np(1-p))`. It prints
    `z = (heads - np) / SD` and rejects H0 when `|z| >= 1.96` (alpha = 0.05).
 
+## Makefile shortcuts
+
+```
+make                         build ./coin_flip
+make run                     build and run the example: ./coin_flip 1000 0.5 42
+make run ARGS="5000 0.7 1"   run with your own arguments
+make clean                   remove the program
+make re                      clean, then build again
+```
+
 ## Examples
 
 ```
-./coin                   # 1000 flips, fair coin
-./coin 100000 0.5 42     # 100,000 flips, reproducible
-./coin 5000 0.7 1       # biased coin with P(H) = 0.7
+./coin_flip                   # 1000 flips, fair coin
+./coin_flip 100000 0.5 42     # 100,000 flips, reproducible
+./coin_flip 5000 0.7 1       # biased coin with P(H) = 0.7
 ```
 
-Output of `./coin 1000 0.5 7` (trimmed):
+Output of `./coin_flip 1000 0.5 7` (trimmed):
 
 ```
 == Coin flip simulation: N=1000, P(H)=0.500, seed=7 ==
@@ -72,8 +82,8 @@ Things to try:
 
 ## Files
 
-- `coin.c`: argument parsing and `main`.
-- `coin_sim.c`: the simulation and the convergence rows.
-- `coin_print.c`: the histogram and the summary statistics.
-- `coin.h`: shared structure and prototypes.
-- `Makefile`: `make`, `make clean`.
+- `coin_flip.c`: argument parsing and `main`.
+- `coin_flip_sim.c`: the simulation and the convergence rows.
+- `coin_flip_print.c`: the histogram and the summary statistics.
+- `coin_flip.h`: shared structure and prototypes.
+- `Makefile`: `make`, `make run`, `make clean`, `make re`.
