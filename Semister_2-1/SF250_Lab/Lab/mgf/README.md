@@ -93,7 +93,14 @@ moments from derivatives of K at t=0 ...
 
 ## Files
 
-- `mgf_discrete.c`: Bernoulli, Binomial, Poisson.
-- `mgf_continuous.c`: Uniform, Exponential, Gaussian.
-- `plot.h`: the ASCII plotter both programs share.
+Code follows the 42 Norm (`norminette` passes): no `for`, no ternary, at most
+25 lines per function and 5 functions per file, so each program is split up.
+
+- `mgf_discrete.c`: argument parsing and `main` (Bernoulli, Binomial, Poisson).
+- `dist.h`, `dist_math.c`, `dist_num.c`, `dist_out.c`, `dist_cb.c`: closed form,
+  brute-force sum, printing and plot callbacks for the discrete program.
+- `mgf_continuous.c`: argument parsing and `main` (Uniform, Exponential, Gaussian).
+- `cont.h`, `cont_math.c`, `cont_num.c`, `cont_out.c`, `cont_cb.c`: same split
+  for the continuous program (Simpson integral in `cont_num.c`).
+- `plot.h`, `plot.c`: the ASCII plotter both programs share.
 - `Makefile`: build, test, big, clean.

@@ -1,39 +1,44 @@
-/* tiny ASCII plotter shared by both programs */
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   plot.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: Moshika <moshika@localhost>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/20 14:40:00 by Moshika           #+#    #+#             */
+/*   Updated: 2026/11/20 14:40:00 by Moshika          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static void	plot(const char *title, double (*f)(double), double lo, double hi)
+#ifndef PLOT_H
+# define PLOT_H
+
+# include <math.h>
+# include <stdio.h>
+# include <string.h>
+
+# define PW 70
+# define PH 16
+
+typedef double	(*t_fn)(double, void *);
+
+typedef struct s_curve
 {
-	char	g[H][W + 1];
+	const char	*title;
+	t_fn		f;
+	void		*ctx;
+	double		lo;
+	double		hi;
+}	t_curve;
 
-	enum
-	{
-		W = 70,
-		H = 16
-	};
-	double y[W], ymin = INFINITY, ymax = -INFINITY;
-	for (int i = 0; i < W; i++)
-	{
-		y[i] = f(lo + (hi - lo) * i / (W - 1));
-		if (isfinite(y[i]))
-		{
-			ymin = fmin(ymin, y[i]);
-			ymax = fmax(ymax, y[i]);
-		}
-	}
-	if (!(ymax > ymin))
-		ymax = ymin + 1;
-	memset(g, ' ', sizeof g);
-	for (int r = 0; r < H; r++)
-		g[r][W] = 0;
-	for (int i = 0; i < W; i++)
-		if (isfinite(y[i]))
-			g[(int)((ymax - y[i]) / (ymax - ymin) * (H - 1) + .5)][i] = '*';
-	printf("\n%s\n", title);
-	for (int r = 0; r < H; r++)
-		printf("%11.4g |%s\n", ymax - (ymax - ymin) * r / (H - 1), g[r]);
-	printf("%11s +%.*s\n%11s  %-*.4g%.4g\n", "", W,
-		"----------------------------------------------------------------------",
-		"", W - 8, lo, hi);
-}
+typedef struct s_plot
+{
+	double	y[PW];
+	char	g[PH][PW + 1];
+	double	ymin;
+	double	ymax;
+}	t_plot;
+
+void	plot(t_curve *c);
+
+#endif
